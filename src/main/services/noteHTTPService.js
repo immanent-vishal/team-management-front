@@ -16,7 +16,21 @@ const removeNote = id => {
     return http.delete(`${BASE_URL}/api/note/${id}`);
 };
 
+const removeAllNote = (data) => {
+    console.log(data , "123");
+    alert('Removingitem');
+    return http.delete(`${BASE_URL}/api/note` , data);
+};
+const removeSelectNote = (data) => {
+    console.log(data , "AB AYGA MJA");
+    alert('Removingitem');
+    return http.delete(`${BASE_URL}/api/deleteselectednotes` ,{ data: data } );
+};
+
 export default {
+    removeAllNote,
+    removeSelectNote,
+
     getAllNote,
     createNote,
     editNote,

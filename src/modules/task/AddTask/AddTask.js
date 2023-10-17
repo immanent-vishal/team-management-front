@@ -35,7 +35,7 @@ const AddTask = (props) => {
   const onSubmit = (data) => {
     //saveTask(data)
     //TaskTestService.create(data)
-    console.log(data)
+    console.log(data, "oooooooooooooooo")
     taskHHTPService.createTask(data).then(data => {
       setTask(initialState)
       showMessage('Confirmation', taskMessage.add, 'success')
@@ -92,7 +92,7 @@ const AddTask = (props) => {
       });
   };
 
-
+console.log(task, "lunch");
   return (
     <div className="AddTask">
       <form method="POST" className="" onSubmit={handleSubmit(onSubmit)}>

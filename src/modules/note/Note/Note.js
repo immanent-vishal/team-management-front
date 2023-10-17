@@ -59,21 +59,34 @@ const Note = () => {
     retrieveNotes()
     forceUpdate()
   }
-
   const remove = (e, data) => {
+    console.log(data, "data", updatedItemId);
+
     e.preventDefault();
     var r = window.confirm(CurrentUser.DELTE_MSG);
-    if (r) {
+    if (updatedItemId.length == 1) {
+      if (r) {
+       
+        //ClientTestService.remove(data)
+        //removeOne(data)
+        console.log(data, "data");
+        noteHTTPService.removeNote(updatedItemId).then((data) => {
+          resfresh();
+        });
+      }
+    } else if (data.length == notes.length) {
+      noteHTTPService.removeAllNote(updatedItemId).then((data) => {
+        resfresh();
+      });
+    } else {
+      console.log("delete hone ja rha h");
 
-      noteHTTPService.removeNote(data).then(data => {
-        showMessage('Confirmation', noteMessage.delete, 'success')
-        resfresh()
-      })
-      //removeOne(data)
-      resfresh()
+      noteHTTPService.removeSelectNote(updatedItemId).then((data) => {
+        resfresh();
+      });
     }
+  };
 
-  }
 
   const update = (e, data) => {
     e.preventDefault();
@@ -90,15 +103,15 @@ const Note = () => {
   const handleRowSelection = (e) => {
     if (e.length == 1) {
 
-      setUpdatedItemId(e[0])
+      setUpdatedItemId([e[0]])
       const selectedItem = notes.find(item => item.id == e[0])
       setUpdatedItem(selectedItem)
       console.log(updatedItem);
     }
-    setUpdatedItemIds(e)
+    setUpdatedItemId([...e]);
 
   }
-  const [updatedItemId, setUpdatedItemId] = useState(0);
+  const [updatedItemId, setUpdatedItemId] = useState([]);
   const [updatedItemIds, setUpdatedItemIds] = useState([]);
   const [showFilter, setShowFilter] = useState(false);
   const [showChart, setShowChart] = useState(false);

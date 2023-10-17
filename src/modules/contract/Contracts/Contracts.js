@@ -54,19 +54,33 @@ const Contracts = () => {
   }
 
   const remove = (e, data) => {
+    console.log(data, "data", updatedItemId);
+
     e.preventDefault();
     var r = window.confirm(CurrentUser.DELTE_MSG);
-    if (r) {
-      showMessage('Confirmation', clientMessage.delete, 'success')
-      //ClientTestService.remove(data)
-      //removeOne(data)
-      contractHTTPService.removeContract(data).then(data => {
-        resfresh()
-      })
+    if (updatedItemId.length == 1) {
+      if (r) {
+        // showMessage("Confirmation", clientMessage.delete, "success");
+        //ClientTestService.remove(data)
+        //removeOne(data)
+        console.log(data, "data");
+        contractHTTPService.removeContract(updatedItemId).then((data) => {
+          resfresh();
+        });
+      }
+    } else if (data.length == contracts.length) {
+      contractHTTPService.removeAllContract(updatedItemId).then((data) => {
+        resfresh();
+      });
+    } else {
+      console.log("delete hone ja rha h");
 
+      contractHTTPService.removeSelectContract(updatedItemId).then((data) => {
+        resfresh();
+      });
     }
+  };
 
-  }
 
   const update = (e, data) => {
     e.preventDefault();
@@ -85,15 +99,15 @@ const Contracts = () => {
   const handleRowSelection = (e) => {
     if (e.length == 1) {
 
-      setUpdatedItemId(e[0])
+      setUpdatedItemId([e[0]])
       const selectedItem = contracts.find(item => item.id == e[0])
       setUpdatedItem(selectedItem)
       console.log(updatedItem);
     }
-    setUpdatedItemIds(e)
+    setUpdatedItemId([...e]);
 
   }
-  const [updatedItemId, setUpdatedItemId] = useState(0);
+  const [updatedItemId, setUpdatedItemId] = useState([]);
   const [updatedItemIds, setUpdatedItemIds] = useState([]);
   const [showFilter, setShowFilter] = useState(false);
   const [showChart, setShowChart] = useState(false);

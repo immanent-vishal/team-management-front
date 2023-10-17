@@ -82,25 +82,39 @@ const Tasks = () => {
   };
 
   const resfresh = () => {
+    alert("refreshing tasks");
     retrieveTasks()
     forceUpdate()
   }
 
   const remove = (e, data) => {
+    console.log(data, "data", updatedItemId);
+
     e.preventDefault();
     var r = window.confirm(CurrentUser.DELTE_MSG);
-    if (r) {
+    if (updatedItemId.length == 1) {
+      if (r) {
+       
+        //ClientTestService.remove(data)
+        //removeOne(data)
+        console.log(data, "data");
+        taskHHTPService.removeTask(updatedItemId).then((data) => {
+          resfresh();
+        });
+      }
+    } else if (data.length == tasks.length) {
+      taskHHTPService.removeAllTask(updatedItemId).then((data) => {
+        resfresh();
+      });
+    } else {
+      console.log("delete hone ja rha h");
 
-      //TaskTestService.remove(data)
-      taskHHTPService.removeTask(data).then(data => {
-        showMessage('Confirmation', taskMessage.delete, 'success')
-        retrieveTasks()
-      })
-      //removeOne(data)
-      resfresh()
+      taskHHTPService.removeSelectTask(updatedItemId).then((data) => {
+        resfresh();
+      });
     }
+  };
 
-  }
 
   const update = (e, data) => {
     e.preventDefault();
@@ -122,15 +136,15 @@ const Tasks = () => {
   const handleRowSelection = (e) => {
     if (e.length == 1) {
 
-      setUpdatedItemId(e[0])
+      setUpdatedItemId([e[0]])
       const selectedItem = tasks.find(item => item.id == e[0])
       setUpdatedItem(selectedItem)
       console.log(updatedItem);
     }
-    setUpdatedItemIds(e)
+    setUpdatedItemId([...e])
 
   }
-  const [updatedItemId, setUpdatedItemId] = useState(0);
+  const [updatedItemId, setUpdatedItemId] = useState([]);
   const [updatedItemIds, setUpdatedItemIds] = useState([]);
   const [showFilter, setShowFilter] = useState(false);
   const [showChart, setShowChart] = useState(false);

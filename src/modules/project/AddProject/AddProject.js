@@ -60,9 +60,9 @@ const AddProject = (props) => {
   };
 
 
-  const retrieveClients = () => {
+  const retrieveClients = async() => {
     setLoading(true)
-    clientHTTPService.getAllClient().then(data => {
+   await clientHTTPService.getAllClient().then(data => {
       setLoading(false)
       setClients(data.data)
 
@@ -71,9 +71,9 @@ const AddProject = (props) => {
   };
 
 
-  const retrieveUsers = () => {
+  const retrieveUsers = async() => {
     setLoading(true)
-    userHTTPService.getAllUser()
+   await userHTTPService.getAllUser()
       .then(response => {
         setUsers(response.data);
         console.log(response.data)
@@ -147,7 +147,7 @@ const AddProject = (props) => {
             value={project.users} name="users" class="selectpicker form-control border-0 mb-1 px-4 py-4 rounded shadow"
           >
             {
-              users.map(item =>
+            users &&   users?.map(item =>
                 <option value={item.username}>{item.name}</option>
 
               )
@@ -166,7 +166,7 @@ const AddProject = (props) => {
             name="client" class="selectpicker form-control border-0 mb-1 px-4 py-4 rounded shadow"
           >
             {
-              clients.map(item =>
+             clients && clients.map(item =>
                 <option value={item.first_name + ' ' + item.last_name}>{item.first_name + ' ' + item.last_name}</option>
 
               )
@@ -189,3 +189,4 @@ AddProject.propTypes = {};
 AddProject.defaultProps = {};
 
 export default AddProject;
+

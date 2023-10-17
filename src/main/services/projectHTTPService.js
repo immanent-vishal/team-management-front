@@ -62,7 +62,25 @@ const getDone = () => {
 const getBlocked = () => {
     return http.get(`${BASE_URL}/api/count/project/blocked`)
 }
+
+const removeAllProject = (data) => {
+    console.log(data , "123");
+    alert('Removingitem');
+    return http.delete(`${BASE_URL}/api/project` , data);
+};
+const removeSelectProjects = (data) => {
+    console.log(data , "AB AYGA MJA");
+    alert('Removingitem');
+    return http.delete(`${BASE_URL}/api/deleteselectedprojects` ,{ data: data } );
+};
+
+
+
+
 export default {
+    removeAllProject,
+    removeSelectProjects,
+
     getTodo,
     getInprogress,
     getDone,

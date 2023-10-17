@@ -44,8 +44,22 @@ const getCount = () => {
     return http.get(`${BASE_URL}/api/count/task/all`)
 }
 
+const removeAllTask = (data) => {
+    console.log(data , "123");
+    alert('Removingitem');
+    return http.delete(`${BASE_URL}/api/task` , data);
+};
+const removeSelectTask = (data) => {
+    console.log(data , "AB AYGA MJA");
+    alert('Removingitem');
+    return http.delete(`${BASE_URL}/api/deleteselectedtask` ,{ data: data } );
+};
+
 export default {
     getTodo,
+    removeAllTask,
+    removeSelectTask,
+
     getinreview,
     getCompleted,
     getInprogress,
