@@ -95,10 +95,20 @@ const User = () => {
 
   }
 
+  function isEmptyObject(obj) {
+    return Object.keys(obj).length <= 0;
+  }
+
   const update = (e, data) => {
+   if(isEmptyObject(updatedItem)){
+    alert("Please Select a task !");
+   }
+   else{
     e.preventDefault();
     setUpdatedItem(data)
     resfresh()
+   }
+   
   }
   const columns = [
     { field: 'id', headerName: '#', width: 30 },
@@ -111,20 +121,17 @@ const User = () => {
 
 
   const handleRowSelection = (e) => {
-
-
-console.log(e , "ee");
     if (e.length == 1) {
 
       setUpdatedItemId([e[0]])
       const selectedItem = users.find(item => item.id == e[0])
-      setUpdatedItem(selectedItem)
+      setUpdatedItem(selectedItem);
       console.log(updatedItem);
     }
-    else{
-      setUpdatedItemId([...e]);
-    } 
-    
+   else{
+    setUpdatedItemId([...e])
+    setUpdatedItem(e[0] || {});
+   }
 
   }
 
@@ -150,8 +157,8 @@ console.log(e , "ee");
       </div>
       <div className="card-body">
 
-        <button type="button" className="btn btn-success btn-sm" data-toggle="modal" data-target="#addUser"><i class="far fa-plus-square"></i>  Create</button>
-        <button onClick={e => remove(e, updatedItemId)} type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Remove</button>
+        <button type="button" className="btn btn-success btn-sm" data-toggle="modal" data-target="#addUser"  disabled={updatedItemId.length>0}><i class="far fa-plus-square"></i>  Create</button>
+        <button onClick={e => remove(e, updatedItemId)} type="button" class="btn btn-danger btn-sm"  disabled={updatedItemId.length<=0}><i class="fas fa-trash-alt"></i> Remove</button>
         {loading ?
           <LinearProgress />
           : <div style={{ height: 430, width: '100%' }}><DataGrid

@@ -115,11 +115,20 @@ const Tasks = () => {
     }
   };
 
+  function isEmptyObject(obj) {
+    return Object.keys(obj).length <= 0;
+  }
 
   const update = (e, data) => {
+   if(isEmptyObject(updatedItem)){
+    alert("Please Select a task !");
+   }
+   else{
     e.preventDefault();
     setUpdatedItem(data)
     resfresh()
+   }
+   
   }
 
   const columns = [
@@ -138,10 +147,13 @@ const Tasks = () => {
 
       setUpdatedItemId([e[0]])
       const selectedItem = tasks.find(item => item.id == e[0])
-      setUpdatedItem(selectedItem)
+      setUpdatedItem(selectedItem);
       console.log(updatedItem);
     }
+   else{
     setUpdatedItemId([...e])
+    setUpdatedItem(e[0] || {});
+   }
 
   }
   const [updatedItemId, setUpdatedItemId] = useState([]);
@@ -158,6 +170,8 @@ const Tasks = () => {
         }) */
     }
   }
+
+
   return (
     <div className="card">
       <div className="card-header">
@@ -165,9 +179,9 @@ const Tasks = () => {
       </div>
       <div className="card-body">
         <TaskSummary />
-        <button onClick={e => update(e, updatedItem)} type="button" data-toggle="modal" data-target="#edit" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Edit</button>
-        <button onClick={e => remove(e, updatedItemId)} type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Remove</button>
-        <button type="button" className="btn btn-primary btn-sm" data-toggle="modal" data-target="#addTasks"><i class="far fa-plus-square"></i>  Create</button>
+        <button onClick={e => update(e, updatedItem)} type="button" data-toggle="modal" data-target="#edit" class="btn btn-warning btn-sm" disabled={isEmptyObject(updatedItem)}><i class="fas fa-edit"></i> Edit</button>
+        <button onClick={e => remove(e, updatedItemId)} type="button" class="btn btn-danger btn-sm"   disabled={updatedItemId.length<=0}><i class="fas fa-trash-alt" ></i> Remove</button>
+        <button type="button" className="btn btn-primary btn-sm" data-toggle="modal" data-target="#addTasks" disabled={updatedItemId.length>0}><i class="far fa-plus-square"></i>  Create</button>
 
 
         <div class="btn-group">

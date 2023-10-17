@@ -83,11 +83,21 @@ const Teams = () => {
 
   }
 
+  function isEmptyObject(obj) {
+    return Object.keys(obj).length <= 0;
+  }
+
   const update = (e, data) => {
+   if(isEmptyObject(updatedItem)){
+    alert("Please Select a task !");
+   }
+   else{
     e.preventDefault();
-    setUpdatedItem(data);
-    resfresh();
-  };
+    setUpdatedItem(data)
+    resfresh()
+   }
+   
+  }
   const columns = [
     { field: "id", headerName: "#", width: 200 },
     { field: "name", headerName: "Name", width: 200 },
@@ -97,12 +107,16 @@ const Teams = () => {
 
   const handleRowSelection = (e) => {
     if (e.length == 1) {
-      setUpdatedItemId(e[0]);
-      const selectedItem = teams.find((item) => item.id == e[0]);
+
+      setUpdatedItemId([e[0]])
+      const selectedItem = teams.find(item => item.id == e[0])
       setUpdatedItem(selectedItem);
+      console.log(updatedItem);
     }
-    console.log(e ,"ee");
-    setUpdatedItemId(e)
+   else{
+    setUpdatedItemId([...e])
+    setUpdatedItem(e[0] || {});
+   }
 
   }
   const [updatedItemIds, setUpdatedItemIds] = useState([]);
@@ -122,7 +136,7 @@ const Teams = () => {
     <div className="card">
       <div className="card-header">
         <h4>
-          <i class="menu-icon fas fa-users-cog"></i> Teamssss
+          <i class="menu-icon fas fa-users-cog"></i> Teams
         </h4>
       </div>
       <div className="card-body">
@@ -131,6 +145,7 @@ const Teams = () => {
           className="btn btn-success btn-sm"
           data-toggle="modal"
           data-target="#addClient"
+          disabled={updatedItemId.length>0}
         >
           <i class="far fa-plus-square"></i> Create
         </button>
@@ -140,6 +155,7 @@ const Teams = () => {
           data-toggle="modal"
           data-target="#edit"
           class="btn btn-warning btn-sm"
+          disabled={isEmptyObject(updatedItem)}
         >
           <i class="fas fa-edit"></i> Edit
         </button>
@@ -147,6 +163,7 @@ const Teams = () => {
           onClick={(e) => remove(e, updatedItemId)}
           type="button"
           class="btn btn-danger btn-sm"
+          disabled={updatedItemId.length<=0}
         >
           <i class="fas fa-trash-alt"></i> Remove
         </button>

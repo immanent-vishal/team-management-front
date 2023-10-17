@@ -111,11 +111,21 @@ const Client = () => {
     }
   };
 
+  function isEmptyObject(obj) {
+    return Object.keys(obj).length <= 0;
+  }
+
   const update = (e, data) => {
+   if(isEmptyObject(updatedItem)){
+    alert("Please Select Single Item !");
+   }
+   else{
     e.preventDefault();
-    setUpdatedItem(data);
-    resfresh();
-  };
+    setUpdatedItem(data)
+    resfresh()
+   }
+   
+  }
 
   const columns = [
     { field: 'id', headerName: '#', width: 200 },
@@ -127,18 +137,19 @@ const Client = () => {
   ];
 
   const handleRowSelection = (e) => {
-    console.log(e, "ee");
-
     if (e.length == 1) {
-      setUpdatedItemId([e[0]]);
-      const selectedItem = clients.find((item) => item.id == e[0]);
-      console.log(selectedItem, "selected");
+
+      setUpdatedItemId([e[0]])
+      const selectedItem = clients.find(item => item.id == e[0])
       setUpdatedItem(selectedItem);
       console.log(updatedItem);
-    } else {
-      setUpdatedItemId([...e]);
     }
-  };
+   else{
+    setUpdatedItemId([...e])
+    setUpdatedItem(e[0] || {});
+   }
+
+  }
   const [updatedItemId, setUpdatedItemId] = useState([]);
   const [updatedItemIds, setUpdatedItemIds] = useState([]);
   const [showFilter, setShowFilter] = useState(false);
@@ -159,6 +170,7 @@ const Client = () => {
           className="btn btn-success btn-sm"
           data-toggle="modal"
           data-target="#addClient"
+          disabled={updatedItemId.length>0}
         >
           <i class="far fa-plus-square"></i> Create
         </button>
@@ -168,6 +180,7 @@ const Client = () => {
           data-toggle="modal"
           data-target="#edit"
           class="btn btn-warning btn-sm"
+          disabled={isEmptyObject(updatedItem)}
         >
           <i class="fas fa-edit"></i> edit
         </button>
@@ -175,6 +188,7 @@ const Client = () => {
           onClick={(e) => remove(e, updatedItemId)}
           type="button"
           class="btn btn-danger btn-sm"
+          disabled={updatedItemId.length<=0}
         >
           <i class="fas fa-trash-alt"></i> Remove
         </button>

@@ -69,7 +69,11 @@ const EditTask = (props) => {
       });
   };
 
+console.log(task , "Task" , users , "Users" );
 
+if(!task){
+  return <h1>Loading ...</h1>
+}
 
   return (
     <div className="EditTask">
@@ -91,20 +95,20 @@ const EditTask = (props) => {
 
         <div className="form-group">
           <label>Title<span className="text-danger">*</span></label>
-          <input type="text" name="title" className="form-control" required="" onChange={handleInputChange} value={task.title}
+          <input type="text" name="title" className="form-control" required="" onChange={handleInputChange} value={task?.title}
             ref={register({ required: true })} />
         </div>
 
         <div className="form-group">
           <label>Short Description<span className="text-danger">*</span></label>
-          <textarea type="text" name="description" className="form-control" onChange={handleInputChange} value={task.description}
+          <textarea type="text" name="description" className="form-control" onChange={handleInputChange} value={task?.description}
             ref={register({ required: true })}></textarea>
         </div>
 
         <div className="form-group">
           <label>Due Date<span className="text-danger">*</span></label>
           <input type="date" name="deadline" className="form-control datepicker" required=""
-            onChange={handleInputChange} value={task.deadline}
+            onChange={handleInputChange} value={task?.deadline}
             ref={register({ required: true })} />
         </div>
 
@@ -120,7 +124,7 @@ const EditTask = (props) => {
 
         <div className="form-group">
           <label>Status<span className="text-danger">*</span></label>
-          <select onChange={handleInputChange} value={task.status}
+          <select onChange={handleInputChange} value={task?.status}
             ref={register({ required: true })} name="status" class="selectpicker form-control border-0 mb-1 px-4 py-4 rounded shadow">
             <option id="todo" value="Todo">Todo</option>
             <option id="inprogress" value="In Progress">In Progress</option>
@@ -131,7 +135,7 @@ const EditTask = (props) => {
 
         <div className="form-group">
           <label>User </label>
-          <select onChange={handleInputChange} value={task.assigned}
+          <select onChange={handleInputChange} value={task?.assigned}
             ref={register({ required: true })} name="assigned" id="users_append" class="selectpicker form-control border-0 mb-1 px-4 py-4 rounded shadow">
             {
               users.map(item =>
